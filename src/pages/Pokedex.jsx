@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Header from '../components/pokedex/Header'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
@@ -11,6 +11,7 @@ const Pokedex = () => {
   const [types, setTypes] = useState([])
   const [currentType, setCurrentType] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
+  const input = useRef(null)
 
   const nameTrainer = useSelector(store => store.nameTrainer)
 
@@ -116,9 +117,13 @@ const Pokedex = () => {
 
     useEffect(() => {
       setCurrentPage(1)
-    
-
   }, [pokemonName, currentType])
+
+  useEffect(() => {
+    setPokemonName("")
+    input.current.value = ""
+  }, [currentType])
+  
     
   return (
 
@@ -132,7 +137,7 @@ const Pokedex = () => {
         <form onSubmit={handleSubmit} className='flex items-center justify-center'>
           <div className=' grid grid-cols-1 sm:grid-cols-none  items-center sm:justify-center sm:w-full mt-10'> 
           <div className=' max-w-[200px] sm:max-w-[300px] mx-auto flex flex-col items-center sm:flex-row sm:items-center'> 
-          <input id='pokemonName' className="bg-[#FFFFFF] shadow-xl  p-2 px-10 mt-4 sm:mt-6 ml-[80px] border-[1px] border-red-500 ms:b" type="text" placeholder='search your pokemon...'/>
+          <input ref={input} id='pokemonName' className="bg-[#FFFFFF] shadow-xl  p-2 px-10 mt-4 sm:mt-6 ml-[80px] border-[1px] border-red-500 ms:b" type="text" placeholder='search your pokemon...'/>
           <button className="bg-[#D93F3F] text-white py-2 px-4 transition duration-300 transform hover:scale-110 focus:scale-110 mt-4  sm:text-center sm:mt-6 sm:mr-[600px]">Search</button>
           </div>
           </div>
